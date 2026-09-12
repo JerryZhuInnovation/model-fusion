@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "model-fusion profile",
+  "type": "object",
+  "required": ["version", "strategy", "judge", "workers", "temperature", "strategy_options"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": 1 },
+    "strategy": { "enum": ["A", "B"] },
+    "judge": {
+      "type": "object",
+      "required": ["model_id"],
+      "additionalProperties": false,
+      "properties": {
+        "model_id": { "type": "string", "minLength": 1 },
+        "api_key_env": { "type": "string" },
+        "base_url": { "type": "string" },
+        "model": { "type": "string" },
+        "api_format": { "enum": ["openai", "anthropic"], "default": "openai" }
+      }
+    },
+    "workers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["model_id", "api_key_env", "base_url", "model", "samples", "role"],
+        "additionalProperties": false,
+        "properties": {
+          "model_id": { "type": "string", "minLength": 1 },
+          "api_key_env": { "type": "string" },
+          "base_url": { "type": "string" },
+          "model": { "type": "string" },
+          "samples": { "type": "integer", "minimum": 1, "maximum": 3 },
+          "role": { "enum": ["primary", "supplement"] },
+          "api_format": { "enum": ["openai", "anthropic"], "default": "openai" }
+        }
+      }
+    },
+    "temperature": {
+      "type": "object",
+      "required": ["mode"],
+      "additionalProperties": false,
+      "properties": {
+        "mode": { "enum": ["default", "fixed", "custom"] },
+        "fixed": { "type": "number", "minimum": 0, "maximum": 2 },
+        "sequence": {
+          "type": "array",
+          "items": { "type": "number", "minimum": 0, "maximum": 2 }
+        }
+      }
+    },
+    "strategy_options": {
+      "type": "object",
+      "required": ["on_partial_failure", "min_success", "timeout_s", "hard_only"],
+      "additionalProperties": false,
+      "properties": {
+        "on_partial_failure": { "enum": ["continue_with_available", "abort"] },
+        "min_success": { "type": "integer", "minimum": 1, "default": 2 },
+        "timeout_s": { "type": "number", "minimum": 1, "default": 90 },
+        "hard_only": { "type": "boolean", "default": true },
+        "max_tokens": { "type": "integer", "minimum": 16, "default": 2048 }
+      }
+    },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "strategy": "A",
+  "judge": {
+    "model_id": "deepseek-judge",
+    "api_key_env": "DEEPSEEK_API_KEY",
+    "base_url": "https://api.deepseek.com/v1",
+    "model": "deepseek-chat",
+    "api_format": "openai"
+  },
+  "workers": [
+    {
+      "model_id": "deepseek-worker",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "base_url": "https://api.deepseek.com/v1",
+      "model": "deepseek-chat",
+      "api_format": "openai",
+      "samples": 2,
+      "role": "primary"
+    },
+    {
+      "model_id": "openrouter-mini",
+      "api_key_env": "OPENROUTER_API_KEY",
+      "base_url": "https://openrouter.ai/api/v1",
+      "model": "openai/gpt-4o-mini",
+      "api_format": "openai",
+      "samples": 1,
+      "role": "supplement"
+    }
+  ],
+  "temperature": {
+    "mode": "default"
+  },
+  "strategy_options": {
+    "on_partial_failure": "continue_with_available",
+    "min_success": 2,
+    "timeout_s": 90,
+    "hard_only": true,
+    "max_tokens": 2048
+  }
+}

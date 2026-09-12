@@ -1,0 +1,12 @@
+{
+  "mcp": {
+    "model_fusion": {
+      "type": "local",
+      "command": ["node", "/ABS/PATH/model-fusion/mcp/dist/index.js"],
+      "environment": {
+        "MODEL_FUSION_HOME": "/Users/YOU/.config/model-fusion"
+      },
+      "enabled": false
+    }
+  }
+}
